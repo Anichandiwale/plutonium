@@ -3,16 +3,18 @@ const bodyParser = require('body-parser');
 const route = require('./routes/route.js');
 const { default: mongoose } = require('mongoose');
 const app = express();
+const moment=require('moment')
+const time = moment();
 
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 
 
-mongoose.connect("mongodb+srv://functionup-cohort:G0Loxqc9wFEGyEeJ@cluster0.rzotr.mongodb.net/Pritesh8769811-DB?retryWrites=true&w=majority", {
+mongoose.connect("mongodb+srv://anilchandiwale:D7Da4CIJ4zC5nwkt@cluster0.gfwbfjw.mongodb.net/Anil-DB", {
     useNewUrlParser: true
 })
 .then( () => console.log("MongoDb is connected"))
-.catch ( err => console.log(err) )
+.catch ( err => console.log(err))
 
 app.use (
     function (req, res, next) {
@@ -20,6 +22,15 @@ app.use (
         next();
   }
   );
+
+  app.use(
+    function (req, res, next) {
+        
+    console.log('middleware is working')
+    console.log(time.format('YYYY-MM-DD hh:mm:ss'), req.ip, req.originalUrl)
+    next();
+    }
+);
 
 app.use('/', route);
 
